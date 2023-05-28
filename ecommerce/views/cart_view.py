@@ -1,6 +1,6 @@
-from rest_framework import views, permissions, response
+from rest_framework import views, permissions, response, status
 from ecommerce.serializers.cart_serializer import CartItemSerializer
-from ecommerce.models.cart import CartItem
+from ecommerce.models.cart import Cart, CartItem
 
 
 class CartCreateAndListAPI(views.APIView):
@@ -15,3 +15,14 @@ class CartCreateAndListAPI(views.APIView):
         serializer = CartItemSerializer(request.data)
         serializer.save()
         return response.Response(serializer.data)
+
+
+class CartRetrieveUpdateDeleteAPI(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, cart_id, *args, **kwargs):
+        cart_item = Cart(id=cart_id)
+        cart_item.is_deleted = True
+        cart_item.save()
+
+        return response.Response("Deleted Successfully", status=status.HTTP_200_Ok)
