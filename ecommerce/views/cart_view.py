@@ -1,19 +1,25 @@
-from rest_framework import views, permissions, response, status
-from ecommerce.serializers.cart_serializer import CartItemSerializer
+from django.contrib.auth.models import User
+from rest_framework import permissions, response, status, views
+
 from ecommerce.models.cart import Cart, CartItem
+from ecommerce.serializers.cart_serializer import CartItemSerializer
 
 
 class CartCreateAndListAPI(views.APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
         cart_items = CartItem.objects.filter(cart__user=request.user)
         serializer = CartItemSerializer(cart_items, many=True)
         return response.Response(serializer.data)
 
-    def post(self, request, *args, **kwargs):
-        serializer = CartItemSerializer(request.data)
-        serializer.save()
+    def post(self, request, product_id, *args, **kwargs):
+        user = User.objects.get(id=1)
+        # user = request.user
+        quantity = request.data.get("quantity")
+        cart, created = Cart.objects.get_or_create(user=user)
+        item = CartItem.objects.create(cart=cart, product_id=product_id)
+        serializer = CartItemSerializer(item)
         return response.Response(serializer.data)
 
 

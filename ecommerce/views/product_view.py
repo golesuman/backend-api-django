@@ -1,7 +1,9 @@
-from rest_framework import views, response, status, serializers, permissions
+from django.contrib.auth.models import User
+from django.db.models import Q
+from rest_framework import permissions, response, serializers, status, views
+
 from ecommerce.models.product import Product, WishList
 from ecommerce.serializers.product_serializer import ProductSerializer
-from django.db.models import Q
 
 
 class ProductCreateListAPI(views.APIView):
@@ -33,7 +35,7 @@ class ProductCreateDetailUpdateDeleteAPI(views.APIView):
 
 
 class WishListAPI(views.APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     class OutputSerializer(serializers.Serializer):
         product = ProductSerializer()
@@ -49,16 +51,13 @@ class WishListAPI(views.APIView):
     def get_wishlist_of_user(self, user):
         return WishList.objects.filter(user=user)
 
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        serializer = self.InputSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        wish_list = WishList(
-            user=request.user,
-            product_id=serializer.data.get("product_id"),
-        )
+    def post(self, request, product_id, *args, **kwargs):
+        # uncomment it after testing
+        # user = request.user
+        user = User.objects.get(id=1)
+        wish_list = WishList(user=user, product_id=product_id)
         wish_list.save()
-        wish_list_for_user = self.get_wishlist_of_user(request.user)
+        wish_list_for_user = self.get_wishlist_of_user(user)
         output_serializer = self.OutputSerializer(wish_list_for_user, many=True)
         return response.Response(output_serializer.data)
 

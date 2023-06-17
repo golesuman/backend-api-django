@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from ecommerce.models.cart import Cart, CartItem
+from ecommerce.serializers.product_serializer import ProductSerializer
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -8,7 +10,6 @@ class CartSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CartItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CartItem
-        fields = "__all__"
+class CartItemSerializer(serializers.Serializer):
+    cart = serializers.CharField()
+    product = ProductSerializer()
