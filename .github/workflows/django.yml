@@ -37,5 +37,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build image
-      run: docker build -t ghcr.io/golesuman/backend-api:0.0.1 .
+      run: |
+        docker build -t ghcr.io/golesuman/backend-api:0.0.1  -f Dockerfile .
         docker push ghcr.io/golesuman/backend-api:0.0.1
