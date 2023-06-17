@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: log into repo
         run: |
-          echo $CI_TOKEN | docker login ghcr.io -u https://github.com/golesuman --password-stdin
+          echo $CI_TOKEN | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
         env:
           CI_TOKEN: ${{ secrets.CI_TOKEN }}
       - uses: actions/checkout@v3
