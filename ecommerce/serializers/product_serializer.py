@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from ecommerce.models.product import Product, Category
+
+from ecommerce.models.product import Category, Product
 
 
 class CategorySerializer(serializers.Serializer):

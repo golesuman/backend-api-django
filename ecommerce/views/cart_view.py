@@ -5,13 +5,18 @@ from ecommerce.models.cart import Cart, CartItem
 from ecommerce.serializers.cart_serializer import CartItemSerializer
 
 
-class CartCreateAndListAPI(views.APIView):
+class CartView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
-        cart_items = CartItem.objects.filter(cart__user=request.user)
+        user = User.objects.get(id=1)
+        cart_items = CartItem.objects.filter(cart__user=user)
         serializer = CartItemSerializer(cart_items, many=True)
         return response.Response(serializer.data)
+
+
+class CartCreateAndListAPI(views.APIView):
+    permission_classes = [permissions.AllowAny]
 
     def post(self, request, product_id, *args, **kwargs):
         user = User.objects.get(id=1)
@@ -24,10 +29,10 @@ class CartCreateAndListAPI(views.APIView):
 
 
 class CartRetrieveUpdateDeleteAPI(views.APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def delete(self, request, cart_id, *args, **kwargs):
-        cart_item = Cart(id=cart_id)
+        cart_item = Cart.objects.get(id=cart_id)
         cart_item.is_deleted = True
         cart_item.save()
 

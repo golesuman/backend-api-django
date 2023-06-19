@@ -38,15 +38,27 @@ class WishListAPI(views.APIView):
     permission_classes = [permissions.AllowAny]
 
     class OutputSerializer(serializers.Serializer):
+        id = serializers.CharField()
+        product = ProductSerializer()
+
+    def get(self, request, *args, **kwargs):
+        # please uncomment this after testing
+        # user = request.user
+        user = User.objects.get(id=1)
+        queryset = WishList.objects.filter(user=user)
+        serializer = self.OutputSerializer(queryset, many=True)
+        return response.Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class WishListCreateAPI(views.APIView):
+    permission_classes = [permissions.AllowAny]
+
+    class OutputSerializer(serializers.Serializer):
+        id = serializers.CharField()
         product = ProductSerializer()
 
     class InputSerializer(serializers.Serializer):
         product_id = serializers.CharField()
-
-    def get(self, request, *args, **kwargs):
-        queryset = WishList.objects.filter(user=request.user)
-        serializer = self.OutputSerializer(queryset, many=True)
-        return response.Response(serializer.data, status=status.HTTP_200_OK)
 
     def get_wishlist_of_user(self, user):
         return WishList.objects.filter(user=user)
@@ -54,7 +66,7 @@ class WishListAPI(views.APIView):
     def post(self, request, product_id, *args, **kwargs):
         # uncomment it after testing
         # user = request.user
-        user = User.objects.get(id=1)
+        user = User.objects.get(id=1)  # comment this after testing
         wish_list = WishList(user=user, product_id=product_id)
         wish_list.save()
         wish_list_for_user = self.get_wishlist_of_user(user)
@@ -63,7 +75,7 @@ class WishListAPI(views.APIView):
 
 
 class WishListRetrieveUpdateDeleteAPI(views.APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     class OutputSerializer(serializers.Serializer):
         product = ProductSerializer()

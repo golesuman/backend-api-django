@@ -11,5 +11,6 @@ class CartSerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.Serializer):
+    id = serializers.CharField()
     cart = serializers.CharField()
     product = ProductSerializer()
