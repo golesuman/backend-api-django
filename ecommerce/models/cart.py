@@ -17,6 +17,7 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(null=True, blank=True)
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return f"{str(self.cart)} {str(self.product)}"

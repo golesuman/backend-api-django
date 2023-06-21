@@ -35,7 +35,7 @@ class ProductCreateDetailUpdateDeleteAPI(views.APIView):
 
 
 class WishListAPI(views.APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     class OutputSerializer(serializers.Serializer):
         id = serializers.CharField()
@@ -51,7 +51,7 @@ class WishListAPI(views.APIView):
 
 
 class WishListCreateAPI(views.APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     class OutputSerializer(serializers.Serializer):
         id = serializers.CharField()
@@ -75,7 +75,7 @@ class WishListCreateAPI(views.APIView):
 
 
 class WishListRetrieveUpdateDeleteAPI(views.APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     class OutputSerializer(serializers.Serializer):
         product = ProductSerializer()

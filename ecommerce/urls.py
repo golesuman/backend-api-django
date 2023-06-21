@@ -15,9 +15,10 @@ from ecommerce.views.product_view import (
     WishListCreateAPI,
     WishListRetrieveUpdateDeleteAPI,
 )
-from ecommerce.views.user_auth_view import RegisterView
+from ecommerce.views.user_auth_view import RegisterView, UserProfileView
 
 urlpatterns = [
+    path("user-profile", UserProfileView.as_view(), name="user_profile"),
     path("products", HomePageAPI.as_view(), name="home_page"),
     path("register", RegisterView.as_view(), name="user_register"),
     path("carts", CartView.as_view(), name="cart_list"),
@@ -43,7 +44,7 @@ urlpatterns = [
     ),
     path("wishlists", WishListAPI.as_view(), name="wishlists"),
     path(
-        "cart/<int:cart_id>",
+        "cart/delete/<int:cart_id>",
         CartRetrieveUpdateDeleteAPI.as_view(),
         name="cart_retrieve_update",
     ),
