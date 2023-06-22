@@ -31,7 +31,7 @@ urlpatterns = [
         "cart/<int:product_id>", CartCreateAndListAPI.as_view(), name="cart_create_list"
     ),
     path("search", SearchAPI.as_view(), name="search"),
-    path("order", OrderCreateAndListView.as_view(), name="order"),
+    path("orders", OrderCreateAndListView.as_view(), name="order"),
     path(
         "product/<int:product_id>",
         ProductCreateDetailUpdateDeleteAPI.as_view(),
