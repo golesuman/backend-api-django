@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import generics, permissions, response, views
 
+from ecommerce.models.account import Account
 from ecommerce.serializers.user_serializer import (
     RegisterSerializer,
     UserProfileSerializer,
@@ -18,6 +19,6 @@ class UserProfileView(views.APIView):
 
     def get(self, request, *args, **kwargs):
         user = self.request.user
-        user = User.objects.filter(id=user.id).first()
+        user = Account.objects.filter(user=user).first()
         serializer = UserProfileSerializer(user)
         return response.Response(serializer.data)

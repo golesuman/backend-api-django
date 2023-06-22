@@ -51,7 +51,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-class UserProfileSerializer(serializers.Serializer):
+class UserSerializer(serializers.Serializer):
     username = serializers.CharField()
     first_name = serializers.CharField()
     last_name = serializers.CharField()
+
+
+class UserProfileSerializer(serializers.Serializer):
+    user = UserSerializer()
+    profile = serializers.ImageField()
+    description = serializers.CharField()

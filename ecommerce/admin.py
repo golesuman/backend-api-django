@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from ecommerce.models.account import Account
 from ecommerce.models.cart import Cart, CartItem
 from ecommerce.models.order import Order, OrderItem
 from ecommerce.models.product import Category, Product, WishList
@@ -17,3 +18,4 @@ admin.site.register(Order)
 admin.site.register(OrderItem)
 admin.site.register(Category)
 admin.site.register(WishList)
+admin.site.register(Account)
